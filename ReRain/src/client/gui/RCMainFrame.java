@@ -16,6 +16,10 @@ import javax.swing.JTextField;
 
 public class RCMainFrame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Attributes
 	public static final int FRAME_WIDTH = 700;
 	public static final int FRAME_HEIGHT = 500;
@@ -23,12 +27,14 @@ public class RCMainFrame extends JFrame{
 	private static final Dimension SCR_DIM = Toolkit.getDefaultToolkit()
 			.getScreenSize();
 	
+	//component
 	private RCContentPane mRootPanel; //root panel
 	private JTextField mLoadingText; // 로딩 메시지
 	private JPanel mLoadingPanel; //로딩 패널
 	
 	public RCMainFrame(){
 		super(RCMainFrame.FRAME_TITLE);
+		mRootPanel = new RCContentPane(this);
 		this.setResizable(false);
 		this.setUndecorated(true);
 		this.setLayout(new BorderLayout());
@@ -41,10 +47,10 @@ public class RCMainFrame extends JFrame{
 		this.remove(mLoadingPanel);
 		this.add(mRootPanel, BorderLayout.CENTER);
 		
-		int mDelayTime;
-		mDelayTime = 2*1000;
+		int mdelayTime;
+		mdelayTime = 2 * 1000;
 		Robot robot = new Robot();
-		robot.delay(mDelayTime);
+		robot.delay(mdelayTime);
 		
 		this.validate();
 		this.repaint();
@@ -54,6 +60,10 @@ public class RCMainFrame extends JFrame{
 	public void loading(){
 		mLoadingText = new JTextField();
 		mLoadingPanel = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			private Image mBg = Toolkit.getDefaultToolkit().getImage("images/loading_kakao.png");
 			
 			protected void paintComponent(Graphics g) {
@@ -79,20 +89,20 @@ public class RCMainFrame extends JFrame{
 		this.setSize(700, 500);
 		this.setVisible(true);
 	}
-	
+	// 패널 표시함수
 	public void viewPanel(String panelName){
 		this.mRootPanel.viewPanel(panelName);
 	}
-	
+	//패널 추가함수
 	public void addPanel(Component comp, String panelName){
 		this.mRootPanel.addPanel(comp, panelName);
 	}
-	
+	//화면 복구 함수
 	public void restoreScreen(){
 		this.setSize(RCMainFrame.FRAME_WIDTH, RCMainFrame.FRAME_HEIGHT);
 		this.setLocation(SCR_DIM.width/2-RCMainFrame.FRAME_WIDTH/2,
 				SCR_DIM.height/2 -RCMainFrame.FRAME_HEIGHT/2);
-		mRootPanel.updateUI();
+		this.mRootPanel.updateUI();
 	}
 	
 	//getter and setter

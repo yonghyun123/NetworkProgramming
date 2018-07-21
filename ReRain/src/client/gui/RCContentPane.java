@@ -21,12 +21,16 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 
 import client.btn.RCExitButton;
-import client.panel.RCGameRoomPanel;
+import client.dialog.RCExitDialog;
+import client.dialog.RCMessageDialog;
 import client.panel.RCJoinPanel;
-import client.panel.RCLobbyPanel;
 import client.panel.RCLoginPanel;
 
 public class RCContentPane extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Attributes
 	private CardLayout mCardLayout; //카드레이아웃
 	private RCMainFrame mFrame; //메인프레임
@@ -39,7 +43,7 @@ public class RCContentPane extends JPanel {
 	private RCExitButton mExitButton; //x button
 	private RCGlassPane mGlassPane; // glasspane
 	private RCLoginPanel mLoginPanel; // 로그인화면
-//	private RCJoinPanel mJoinPanel; //회원가입 화면
+	private RCJoinPanel mJoinPanel; //회원가입 화면
 //	private RCLobbyPanel mLobbyPanel; //로비화면
 //	private RCGameRoomPanel mGameRoomPanel //방화면
 	
@@ -52,20 +56,20 @@ public class RCContentPane extends JPanel {
 		mGlassPane = new RCGlassPane();
 		mLoginPanel = new RCLoginPanel(this);
 		mJoinPanel = new RCJoinPanel(this);
-		mLobbyPanel = new RCLobbyPanel(this);
-		mGameRoomPanel = new RCGameRoomPanel(this);
+//		mLobbyPanel = new RCLobbyPanel(this);
+//		mGameRoomPanel = new RCGameRoomPanel(this);
 	}
 	
 	public void init(String serverIP){
-//		mGlassPane.init();
+		mGlassPane.init();
 		mFrame.getLoadingText().setText("glass panel 초기화..");
 		mLoginPanel.init(serverIP);
 		mFrame.getLoadingText().setText("login panel 초기화...");
 		mJoinPanel.init(serverIP);
 		mFrame.getLoadingText().setText("join panel 초기화...");
-		mLobbyPanel.init(serverIP);
+//		mLobbyPanel.init(serverIP);
 		mFrame.getLoadingText().setText("lobby panel 초기화..");
-		mGameRoomPanel.init(serverIP);
+//		mGameRoomPanel.init(serverIP);
 		mFrame.getLoadingText().setText("game room 초기화...");
 		
 		mTitleImage = Toolkit.getDefaultToolkit().getImage("images/Team_Logo.png");
@@ -80,9 +84,9 @@ public class RCContentPane extends JPanel {
 		mCardLayout = new CardLayout();
 		mContent.setLayout(this.mCardLayout);
 		mContent.add(mLoginPanel, mLoginPanel.getClass().getName());
-		mContent.add(mJoinPanel, mJoingPanel.getClass().getName());
-		mContent.add(mLobbyPanel, mLobbyPanel.getClass().getName());
-		mContent.add(mGameRoomPanel, mGameRoomPanel.getClass().getName());
+		mContent.add(mJoinPanel, mJoinPanel.getClass().getName());
+//		mContent.add(mLobbyPanel, mLobbyPanel.getClass().getName());
+//		mContent.add(mGameRoomPanel, mGameRoomPanel.getClass().getName());
 		
 		mFrame.setGlassPane(mGlassPane);
 		
@@ -146,6 +150,46 @@ public class RCContentPane extends JPanel {
 		g2d.drawImage(this.mTitleImage, 35, 10, this.mTitleImage.getWidth(this), this.mTitleImage.getHeight(this), this);
 	}
 	
+	//컴포넌트 그리기 함수
+	@Override
+	public void paintComponent(Graphics g){
+		this.drawBackgournd(g);
+		super.paintComponent(g);
+		
+	}
+	
+	//패널 표시함수
+	public void viewPanel(String panelName){
+		this.mCardLayout.show(this.mContent, panelName);
+		
+	}
+	//메시지 다이얼로그 표시 함수
+	public void showMessageDialog(String msg){
+		mGlassPane.setComponent(new RCMessageDialog(mFrame, msg));
+		mFrame.getGlassPane().setVisible(true);
+	}
+	//종료 다이얼로그 표시 함수
+	public void showExitDialog(){
+		mGlassPane.setComponent(new RCExitDialog(mFrame));;
+		mFrame.getGlassPane().setVisible(true);
+	}
+	
+	// 방 만들기 다이어로그 표시 함수
+//	public void showCreateRoomDialog(){
+//		mGlassPane.setComponent(new RCCreateRoomDialog(mFrame));
+//		mFrame.getGlassPane().setVisible(true);
+//	}
+	//다이어로그 숨기기 함수
+	public void hideDialog(){
+		mFrame.getGlassPane().setVisible(false);
+	}
+	
+	// 로딩화면 다이어로그 표시 함수
+//	public void showLoadingDialog(String msg) {
+//		mGlassPane.setComponent(new SCLoadingDialog(msg));
+//		mFrame.getGlassPane().setVisible(true);
+//	}
+	
 	public void addPanel(Component comp, String panelName){
 		this.mContent.add(comp, panelName);
 	}
@@ -156,6 +200,24 @@ public class RCContentPane extends JPanel {
 		panel.setOpaque(false);
 		return panel;
 	}
+	
+	//getter setter
+	public RCLoginPanel getLoginPanel(){
+		return mLoginPanel;
+	}
+
+	public RCJoinPanel getJoinPanel(){
+		return mJoinPanel;
+	}
+	
+//	public RCLobbyPanel getLobbyPanel(){
+//		return mLobbyPanel;
+//	}
+	
+//	public RCGameRoomPanel getGameRoomPanel(){
+//		return mGameRoomPanel;
+//	}
+	
 	
 	
 }
