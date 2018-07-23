@@ -20,10 +20,11 @@ public class RCLoginController extends RCClientStub{
 	public void login(String id, String pw){
 //		mLoginPanel.getContentPane().showLoadingDialog("로그인 중입니다.");
 		RequestPacket packet = new RequestPacket();
-		packet.setmClassName("RSLoginContoller");
+		packet.setmClassName("RSLoginController");
 		packet.setmMethodName("login");
 		packet.setmSyncType(SYNC_TYPE.SYNCHRONOUS);
 		packet.setmArgs(new Object[] {id, pw});
+		System.out.println("id="+id+", pw="+pw);
 		this.send(packet);
 	}
 	

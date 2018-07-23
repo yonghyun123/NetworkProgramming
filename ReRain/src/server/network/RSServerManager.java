@@ -39,7 +39,7 @@ public class RSServerManager {
 	}
 	
 //	public RSLobby getLobby(){
-//		return mLobby;
+//		resturn
 //	}
 
 }
