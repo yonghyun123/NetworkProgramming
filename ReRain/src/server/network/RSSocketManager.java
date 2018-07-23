@@ -46,18 +46,20 @@ public class RSSocketManager extends Thread implements Runnable {
 			try{
 				Object obj = inputStream.readObject();
 				RequestPacket requestPacket = (RequestPacket)obj;
-				System.out.println("server get.."+ requestPacket.getmMethodName());
+				System.out.println("server get.."+ requestPacket.getmMethodName() + requestPacket.getmClassName());
 				
 				if(mManagerName == null){
 					mManagerName = requestPacket.getmClassName();
 				}
-				
+
 				if(requestPacket.getmMethodName().equals("init")){
 //					this.initPlayer( (String)requestPacket.getmArgs()[0]);
 					continue;
 				}
-				
+				System.out.println(mManagerName);
+				System.out.println("class loading====>");
 				Class<?> clz = ClassLoader.getSystemClassLoader().loadClass("server.controller."+mManagerName);
+				System.out.println("class loading====>"+clz.toString());
 				Object classObj = clz.newInstance();
 				Method[] methods = clz.getMethods();
 				Method targetMethod = null;
@@ -69,6 +71,7 @@ public class RSSocketManager extends Thread implements Runnable {
 				}
 				
 				if(requestPacket.getmSyncType() == SYNC_TYPE.SYNCHRONOUS){
+					System.out.println("여기는 들어오나?");
 					Object[] returnValue = (Object[]) targetMethod.invoke(classObj, requestPacket.getmArgs());
 					ResponsePacket responsePacket = new ResponsePacket(requestPacket.getmMethodName(), returnValue);
 					outputStream.writeObject(requestPacket);

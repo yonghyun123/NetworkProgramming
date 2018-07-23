@@ -22,6 +22,10 @@ import client.gui.RCContentPane;
 
 public class RCLoginPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Image mWelcomImage;// 환영메시지
 	private Image mRightImage; //장식그림
 	
@@ -31,7 +35,7 @@ public class RCLoginPanel extends JPanel {
 	private RCRectButton mJoinButton; //회원가입 버튼
 	private RCContentPane mParent; //상위패널
 	
-//	private RCLoginController mLoginController;
+	private RCLoginController mLoginController;
 	
 	public RCLoginPanel(RCContentPane parent){
 		super();
@@ -73,8 +77,8 @@ public class RCLoginPanel extends JPanel {
 		this.add(bottomPanel, BorderLayout.SOUTH);
 		
 		this.setOpaque(false);
-//		mLoginController = new RCLoginController(serverIP, this);
-//		mLoginController.start();
+		mLoginController = new RCLoginController(serverIP, this);
+		mLoginController.start();
 		this.initEventHandler();
 		mIdField.requestFocus();
 	}
@@ -96,7 +100,7 @@ public class RCLoginPanel extends JPanel {
 					return;
 				}
 				
-//				mLoginController.login(id,pw);
+				mLoginController.login(id,pw);
 				
 			}
 		};
